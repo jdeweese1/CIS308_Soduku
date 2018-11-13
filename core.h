@@ -7,11 +7,13 @@
 #define FALSE 0
 #define BOARD_HEIGHT 9
 #define BOARD_WIDTH 9
+
 typedef enum {
 	a,b,c,
 	d,e,f,
 	g,h,i
 } CellValue;
+
 
 typedef struct
 {
@@ -29,5 +31,6 @@ int check_board(Board * b);
 Board * solve_board(Board * b); 
 Board * generate_board();
 int read_board(Board * board, FILE * fp); 
+
 int core_main(int argc, const char * argv[]);
 #endif /* core_h */
