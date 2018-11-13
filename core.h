@@ -7,25 +7,30 @@
 #define FALSE 0
 #define BOARD_HEIGHT 9
 #define BOARD_WIDTH 9
-enum cellValues
-{
-	0,1,2,3,4,5,6,7,8,9
-};
 
-typedef struct cell
-{
-	int value;
-	int visited = FALSE; 
-};
+typedef enum {
+	a,b,c,
+	d,e,f,
+	g,h,i
+} CellValue;
 
-typedef struct board
-{
-	cell suduko_board[9][9];
-	int is_solved = FALSE;
-} board;
 
-int check_board(board * b);
-board * solve_board(board * b); 
-board * generate_board();
+typedef struct
+{
+	CellValue value;
+	int visited; 
+} Cell;
+
+typedef struct
+{
+	Cell suduko_board[9][9];
+	int is_solved;
+} Board;
+
+int check_board(Board * b);
+Board * solve_board(Board * b); 
+Board * generate_board();
+int read_board(Board * board, FILE * fp); 
+
 int core_main(int argc, const char * argv[]);
 #endif /* core_h */
