@@ -1,5 +1,4 @@
 
-
 #ifndef core_h
 #define core_h
 
@@ -22,4 +21,8 @@ typedef struct board
 	cell suduko_board[9][9];
 	int is_solved = FALSE;
 } board;
+
+int check_board(board *);
+board * solve_board(board *); 
+board * generate_board();
 #endif /* core_h */
