@@ -3,15 +3,15 @@
 
 #include "core.h"
 
-int check_board(board *)
+int check_board(Board * b)
 {
 	return FALSE;
 }
-board * solve_board(board *)
+Board * solve_board(Board * b)
 {
 	return NULL;
 }
-board * generate_board()
+Board * generate_board()
 {
 	return NULL;
 }
