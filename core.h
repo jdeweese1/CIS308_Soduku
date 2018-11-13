@@ -16,4 +16,10 @@ typedef struct cell
 	int value;
 	int visited = FALSE; 
 };
+
+typedef struct board
+{
+	cell suduko_board[9][9];
+	int is_solved = FALSE;
+} board;
 #endif /* core_h */
