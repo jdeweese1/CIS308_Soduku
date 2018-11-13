@@ -5,6 +5,8 @@
 #include <stdio.h>
 #define TRUE 1
 #define FALSE 0
+#define BOARD_HEIGHT 9
+#define BOARD_WIDTH 9
 enum cellValues
 {
 	0,1,2,3,4,5,6,7,8,9
@@ -22,7 +24,8 @@ typedef struct board
 	int is_solved = FALSE;
 } board;
 
-int check_board(board *);
-board * solve_board(board *); 
+int check_board(board * b);
+board * solve_board(board * b); 
 board * generate_board();
+int core_main(int argc, const char * argv[]);
 #endif /* core_h */
