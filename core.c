@@ -3,8 +3,6 @@
 
 #include "core.h"
 
-
-
 int find_assigned(board * suduko, int * row, int * col)
 {
 	for(int i = 0; i < 9; i++) {
@@ -41,3 +39,19 @@ int used_in_col(board * suduko, int * col, int num)
         return FALSE;
 }
 
+int check_board(Board * b)
+{
+	return FALSE;
+}
+Board * solve_board(Board * b)
+{
+	return NULL;
+}
+Board * generate_board()
+{
+	return NULL;
+}
+int core_main(int argc, const char * argv[]) 
+{
+	return 0;
+}
