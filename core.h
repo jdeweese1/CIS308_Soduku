@@ -28,6 +28,10 @@ typedef struct Board
 	int is_solved;
 } Board;
 
+int find_assigned(Board *, int * , int *);
+int used_in_row(Board *, int, int);
+int used_in_col(Board *, int, int);
+
 int check_board(Board * b);
 Board * solve_board(Board * b); 
 Board * generate_board();
