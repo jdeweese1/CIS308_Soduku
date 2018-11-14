@@ -50,6 +50,25 @@ Board * generate_board()
 {
 	return NULL;
 }
+// Methods for SimpleDict
+void clear_dict(SimpleDict * sd)
+{
+	for (int i = 0; i < sizeof(sd->is_chosen)/sizeof(sd->is_chosen[0]); i++)
+	{
+		sd->is_chosen[i] = 0;
+	}
+}
+int dict_add(SimpleDict * sd, CellValue cv)
+{
+	if (cv > BOARD_WIDTH || cv < 0) return FALSE;
+	sd->is_chosen[cv] = 1;
+	return TRUE;
+}
+int dict_contains(SimpleDict *sd, CellValue cv)
+{
+	if (cv > BOARD_WIDTH || cv < 0) return FALSE;
+	return sd->is_chosen[cv] >= 1;
+}
 int core_main(int argc, const char * argv[]) 
 {
 	return 0;

@@ -29,6 +29,10 @@ typedef struct Board
 	int is_solved;
 } Board;
 
+typedef struct
+{
+	int is_chosen[BOARD_WIDTH+1];//boolean array
+} SimpleDict;
 int find_assigned(Board *, int * , int *);
 int used_in_row(Board *, int, int);
 int used_in_col(Board *, int, int);
@@ -37,6 +41,12 @@ int check_board(Board * b);
 Board * solve_board(Board * b); 
 Board * generate_board();
 int read_board(Board * board, FILE * fp); 
+
+// Methods for a SimpleDict
+void clear_dict(SimpleDict * sd);
+int dict_add(SimpleDict * sd, CellValue cv);
+int dict_contains(SimpleDict *sd, CellValue cv);
+//int init_dict(SimpleDict *sd) // do we need this?
 
 int core_main(int argc, const char * argv[]);
 #endif /* core_h */
