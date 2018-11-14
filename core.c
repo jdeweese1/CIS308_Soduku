@@ -3,13 +3,13 @@
 
 #include "core.h"
 
-int find_assigned(board * suduko, int * row, int * col)
+int find_assigned(Board * suduko, int * row, int * col)
 {
 	for(int i = 0; i < 9; i++) {
 		for(int j = 0; j < 9; j++) {
-			if(suduko->suduko_board[i][j] == 0) {
-				row = i;
-				col = j;
+			if(suduko->sudoku_board[i][j].value == 0) {
+				*row = i;
+				*col = j;
 				return TRUE;
 			}
 		}
@@ -18,21 +18,20 @@ int find_assigned(board * suduko, int * row, int * col)
 	col = 0;
 	return FALSE;
 }
-
-int used_in_row(board * suduko, int * row, int num) 
+int used_in_row(Board * sudoku, int row, int num) 
 {
 	for(int col = 0; col < 9; col++) {
-		if(suduko-sudoku_board[*row][col] == num) {
+		if(sudoku->sudoku_board[row][col].value == num) {
 			return TRUE;
 		}
 	}
 	return FALSE;
 }
 
-int used_in_col(board * suduko, int * col, int num)
+int used_in_col(Board * sudoku, int col, int num)
 {
         for(int row = 0; row < 9; row++) {
-                if(suduko-sudoku_board[row][*col] == num) {
+                if(sudoku->sudoku_board[row][col].value == num) {
                         return TRUE;
                 }
         }

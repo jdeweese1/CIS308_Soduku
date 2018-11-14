@@ -45,7 +45,7 @@ void init_test_board(Board * b, int values[9][9])
             Cell c;
             c.visited = TRUE;
             c.value = values[i][j];
-            b->suduko_board[i][j] = c;
+            b->sudoku_board[i][j] = c;
         }
     }
 }
@@ -67,9 +67,23 @@ static char * test_solve_board()
     mu_begin_case("solve_board");
     Board b;
     init_test_board(&b,INCOMPLETE_VALUES);
-    mu_assert_i("foobar",SOLVED_VALUES[0][0],b.suduko_board[0][0].value);//add for loop
+    mu_assert_i("foobar",SOLVED_VALUES[0][0],b.sudoku_board[0][0].value);//add for loop
     mu_end_case("solve_board");
     return 0;
+}
+static char * test_find_assigned()
+{
+    mu_begin_case("find_assigned");
+    int row = 0;
+    int col = 0;
+    mu_assert_i("checking with null board,", 0, find_assigned(NULL,&row, &col));
+    mu_assert_i("checking zeros returned for row", -1,row);
+    mu_assert_i("checking zero returned for col",-1, col);
+    Board b;
+    init_test_board(&b,INCOMPLETE_VALUES);
+    mu_assert_i("checking correct value for row",0,find_assigned(&b,&row,&col));
+
+
 }
 
 static char * all_tests() {

@@ -22,9 +22,9 @@ typedef struct
 	int visited; 
 } Cell;
 
-typedef struct
+typedef struct Board
 {
-	Cell suduko_board[9][9];
+	Cell sudoku_board[9][9];
 	int is_solved;
 } Board;
 
