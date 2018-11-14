@@ -36,6 +36,18 @@ int SOLVED_VALUES[9][9]= {
         {8, 3, 4, 7, 1, 6, 2, 9, 5}
     };
 
+int INVALID_VALUES[9][9]= {
+        {6, 9, 1, 5, 3, 7, 4, 1, 2},//THE 1
+        {1, 4, 7, 2, 6, 8, 9, 5, 3},
+        {3, 2, 5, 1, 4, 9, 8, 7, 6},
+        {2, 5, 3, 8, 7, 1, 6, 4, 9},
+        {7, 6, 1, 3, 9, 4, 5, 2, 8},
+        {4, 8, 9, 6, 5, 2, 1, 3, 7},
+        {5, 1, 2, 5, 8, 3, 7, 6, 4},//THE 5
+        {9, 7, 6, 4, 2, 5, 3, 8, 1},
+        {8, 3, 4, 7, 1, 6, 2, 9, 5}
+    };
+
 
 void init_test_board(Board * b, int values[9][9])
 {
@@ -56,8 +68,12 @@ static char * test_check_board()
     Board b;
     init_test_board(&b, SOLVED_VALUES);
     mu_assert_i("check_board 1", 1, check_board(&b)); 
+
     init_test_board(&b, INCOMPLETE_VALUES);
-    mu_assert_i("checking an incopmlete board",0, check_board(&b));
+    mu_assert_i("checking an incomplete board",0, check_board(&b));
+
+    init_test_board(&b, INVALID_VALUES);
+    mu_assert_i("checking invalid solution",0,check_board(&b));
     mu_end_case("check_board");
     return 0 ;
 }
@@ -67,6 +83,7 @@ static char * test_solve_board()
     mu_begin_case("solve_board");
     Board b;
     init_test_board(&b,INCOMPLETE_VALUES);
+    solve_board(&b);
     mu_assert_i("foobar",SOLVED_VALUES[0][0],b.sudoku_board[0][0].value);//add for loop
     mu_end_case("solve_board");
     return 0;
@@ -82,8 +99,8 @@ static char * test_find_assigned()
     Board b;
     init_test_board(&b,INCOMPLETE_VALUES);
     mu_assert_i("checking correct value for row",0,find_assigned(&b,&row,&col));
-
-
+    mu_end_case("find_assigned");
+    return 0;
 }
 
 static char * all_tests() {
