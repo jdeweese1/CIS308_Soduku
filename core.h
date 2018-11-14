@@ -5,6 +5,7 @@
 #include <stdio.h>
 #define TRUE 1
 #define FALSE 0
+
 #define BOARD_HEIGHT 9
 #define BOARD_WIDTH 9
 
