@@ -10,9 +10,10 @@
 #define BOARD_WIDTH 9
 
 typedef enum {
-	a,b,c,
-	d,e,f,
-	g,h,i
+	empty,a,b,
+	c,d,e,
+	f,g,h,
+	i,
 } CellValue;
 
 
