@@ -2,3 +2,6 @@
 /test
 ._test
 /main
+*.sublime-project
+*.sublime-workspace
+*.save

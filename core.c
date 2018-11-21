@@ -4,8 +4,12 @@
 #include "core.h"
 
 
-int find_assigned(Board * suduko, int * row, int * col)
+int find_unassigned(Board * suduko, int * row, int * col)
 {
+	if (suduko == NULL)
+	{
+		 return FALSE;
+	}
 	for(int i = 0; i < 9; i++) {
 		for(int j = 0; j < 9; j++) {
 			if(suduko->sudoku_board[i][j].value == 0) {
@@ -20,9 +24,13 @@ int find_assigned(Board * suduko, int * row, int * col)
 	return FALSE;
 }
 
-
 int used_in_row(Board * sudoku, int * row, int num) 
 {
+	if (sudoku == NULL ||
+		row == NULL)
+	{
+		return -1;
+	}
 	for(int col = 0; col < 9; col++) {
 		if(sudoku->sudoku_board[*row][col].value == num) {
 
@@ -34,6 +42,11 @@ int used_in_row(Board * sudoku, int * row, int num)
 
 int used_in_col(Board * sudoku, int * col, int num)
 {
+	if (sudoku == NULL ||
+		col == NULL)
+	{
+		return -1;
+	}
         for(int row = 0; row < 9; row++) {
                 if(sudoku->sudoku_board[row][*col].value == num) {
 
@@ -44,6 +57,13 @@ int used_in_col(Board * sudoku, int * col, int num)
 }
 int used_in_box(Board * sudoku, int boxStartRow, int boxStartCol, int num)
 {
+	if(sudoku == NULL ||
+		boxStartRow < 0 || boxStartRow >= BOARD_HEIGHT || // Row out of bounds
+		boxStartCol < 0 || boxStartCol >= BOARD_HEIGHT || // Col out of bounds
+		num < 0 || num > BOARD_HEIGHT) // Value to search for is out of bounds
+	{
+		return -1;
+	}
 	for (int row = 0; row < 3; row++) {
                 for (int col = 0; col < 3; col++) {
                     if (sudoku->sudoku_board[row + boxStartRow][col + boxStartCol].value == num) {
@@ -61,10 +81,29 @@ int is_safe(Board * sudoku, int * col, int * row, int num)
 }
 int check_board(Board * b)
 {
+	if (b == NULL) return FALSE;
+	//check all rows
+	for(int row_num =0;row_num<BOARD_HEIGHT; row_num++)
+	{
+		for (int col_num = 0; col_num < BOARD_WIDTH; col_num++)
+		{
+			int value = b->sudoku_board[row_num][col_num].value;
+			// if(has_row_duplicates(b,row_num,value)) return FALSE;
+			// if(has_col_duplicates(b,col_num,value)) return FALSE;
+		}
+	}
+	// should we check if the board is valid? i.e. no number conflicts in square, rows, cols?
+	// or  
+	//check all columns
+	//check all 3x3 boxes
 	return FALSE;
 }
 int solve_board(Board * b)
 {
+	if(b == NULL)
+	{
+		return -1;
+	}
 	int * row;
 	int * col;
 	if(!find_unassigned(b, row, col)) {
@@ -98,7 +137,8 @@ void print_board(Board * b) {
 	}
 }
 // Methods for SimpleDict
-void clear_dict(SimpleDict * sd)
+
+void dict_clear(SimpleDict * sd)
 {
 	for (int i = 0; i < sizeof(sd->is_chosen)/sizeof(sd->is_chosen[0]); i++)
 	{
@@ -119,18 +159,18 @@ int dict_contains(SimpleDict *sd, CellValue cv)
 
 int core_main(int argc, const char * argv[]) 
 {
-	printf("This is before board");
-	Board * example;
-	printf("this is before loop");
+	printf("This is before board\n");
+	Board example;
+	printf("this is before loop\n");
 	for(int i = 0; i < 9; i++) {
                 for(int j = 0; j < 9; j++) {
-                         example->sudoku_board[i][j].value = 0;
+                         example.sudoku_board[i][j].value = 0;
                 }
         }
-	printf("this is before print board");
-	print_board(example);
-	printf("Print board worked fine");
-	solve_board(example);
-	print_board(example);
+	printf("this is before print board\n");
+	print_board(&example);
+	printf("Print board worked fine\n");
+	solve_board(&example);
+	print_board(&example);
 	return 0;
 }
