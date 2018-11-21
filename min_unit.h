@@ -19,13 +19,14 @@
 #ifndef min_unit_h
 #define min_unit_h
 
-#define mu_begin_case(name) \
+#define mu_begin_case(name, test_step_count) \
     do { \
         if (test_cases_run > 0) { \
             printf("\n"); \
         } \
         test_steps_run = 0; \
         test_steps_failed = 0; \
+        total_test_steps = test_step_count; \
         printf("TESTING " COLOR_YEL name COLOR_RESET ":\n"); \
     } while (0) 
 
