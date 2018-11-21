@@ -24,17 +24,14 @@ typedef struct
 
 typedef struct
 {
-	Cell suduko_board[9][9];
+	Cell sudoku_board[9][9];
 	int is_solved;
 } Board;
 
-<<<<<<< Updated upstream
 int check_board(Board * b);
-Board * solve_board(Board * b); 
+int solve_board(Board * b); 
 Board * generate_board();
 int read_board(Board * board, FILE * fp); 
 
-=======
->>>>>>> Stashed changes
 int core_main(int argc, const char * argv[]);
 #endif /* core_h */

@@ -7,10 +7,9 @@
 //
 
 #include "core.h"
-#include "core.c"
 
 #ifndef TEST
-int not_main(int argc, const char * argv[]) {
+int main(int argc, const char * argv[]) {
 	printf("This is before board");
         Board * example;
         printf("this is before loop");
