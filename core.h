@@ -38,7 +38,7 @@ int used_in_row(Board *, int, int);
 int used_in_col(Board *, int, int);
 
 int check_board(Board * b);
-Board * solve_board(Board * b); 
+int solve_board(Board * b); 
 Board * generate_board();
 int read_board(Board * board, FILE * fp); 
 
