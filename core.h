@@ -28,10 +28,13 @@ typedef struct
 	int is_solved;
 } Board;
 
+<<<<<<< Updated upstream
 int check_board(Board * b);
 Board * solve_board(Board * b); 
 Board * generate_board();
 int read_board(Board * board, FILE * fp); 
 
+=======
+>>>>>>> Stashed changes
 int core_main(int argc, const char * argv[]);
 #endif /* core_h */

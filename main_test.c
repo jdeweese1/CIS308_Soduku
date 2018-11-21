@@ -36,7 +36,23 @@ int SOLVED_VALUES[9][9]= {
         {8, 3, 4, 7, 1, 6, 2, 9, 5}
     };
 
+<<<<<<< Updated upstream
 
+=======
+int INVALID_VALUES[9][9]= {
+        {6, 9, 1, 5, 3, 7, 4, 1, 2},//THE 1
+        {1, 4, 7, 2, 6, 8, 9, 5, 3},
+        {3, 2, 5, 1, 4, 9, 8, 7, 6},
+        {2, 5, 3, 8, 7, 1, 6, 4, 9},
+        {7, 6, 1, 3, 9, 4, 5, 2, 8},
+        {4, 8, 9, 6, 5, 2, 1, 3, 7},
+        {5, 1, 2, 5, 8, 3, 7, 6, 4},//THE 5
+        {9, 7, 6, 4, 2, 5, 3, 8, 1},
+        {8, 3, 4, 7, 1, 6, 2, 9, 5}
+    };
+
+/*
+>>>>>>> Stashed changes
 void init_test_board(Board * b, int values[9][9])
 {
     
@@ -77,10 +93,10 @@ static char * all_tests() {
     test_solve_board();
     return 0;
 }
-
+*/
 #ifdef TEST
 int main(int argc, char **argv) {
-    mu_run(all_tests);
+  //  mu_run(all_tests);
     return 0;
 }
 #endif
