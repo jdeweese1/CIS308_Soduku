@@ -8,6 +8,8 @@ int find_unassigned(Board * suduko, int * row, int * col)
 {
 	if (suduko == NULL)
 	{
+		*row = -1;
+		*col = -1;
 		 return FALSE;
 	}
 	for(int i = 0; i < 9; i++) {
@@ -19,8 +21,8 @@ int find_unassigned(Board * suduko, int * row, int * col)
 			}
 		}
 	}
-	*row = 0;
-	*col = 0;
+	*row = -1;
+	*col = -1;
 	return FALSE;
 }
 
@@ -58,8 +60,8 @@ int used_in_col(Board * sudoku, int * col, int num)
 int used_in_box(Board * sudoku, int boxStartRow, int boxStartCol, int num)
 {
 	if(sudoku == NULL ||
-		boxStartRow < 0 || boxStartRow >= BOARD_HEIGHT || // Row out of bounds
-		boxStartCol < 0 || boxStartCol >= BOARD_HEIGHT || // Col out of bounds
+		boxStartRow < 0 || boxStartRow >= BOARD_HEIGHT -2|| // Row out of bounds
+		boxStartCol < 0 || boxStartCol >= BOARD_HEIGHT -2|| // Col out of bounds
 		num < 0 || num > BOARD_HEIGHT) // Value to search for is out of bounds
 	{
 		return -1;
@@ -75,6 +77,10 @@ int used_in_box(Board * sudoku, int boxStartRow, int boxStartCol, int num)
 }
 int is_safe(Board * sudoku, int * col, int * row, int num)
 {
+	 if( sudoku == NULL || col == NULL || row == NULL)
+	 {
+	 	return	-1;
+	 }
 	return (!used_in_row(sudoku, row, num) &&
 		!used_in_col(sudoku, col, num) &&
 		!used_in_box(sudoku, (*row) - (*row) % 3, (*col) - (*col) % 3, num));

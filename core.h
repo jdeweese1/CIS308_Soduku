@@ -39,6 +39,8 @@ int find_unassigned(Board * sudoku, int * row, int * col);
 int used_in_row(Board * sudoku, int * row, int num);
 int used_in_col(Board * sudoku, int * col, int num);
 int used_in_box(Board * sudoku, int boxStartRow, int boxStartCol, int num);
+int is_safe(Board * sudoku, int * col, int * row, int num);
+
 
 int check_board(Board * b);
 int solve_board(Board * b); 

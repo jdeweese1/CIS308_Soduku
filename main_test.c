@@ -13,15 +13,16 @@
 
 #include "core.h"
 int INCOMPLETE_VALUES[9][9] = {
-        {0, 9, 8, 5, 3, 7, 4, 1, 2},
-        {1, 4, 0, 2, 6, 8, 9, 5, 3},
-        {0, 2, 5, 1, 4, 0, 8, 7, 0},
-        {2, 5, 3, 8, 0, 1, 6, 0, 9},
-        {0, 6, 1, 0, 9, 4, 5, 0, 8},
-        {0, 8, 0, 6, 0, 2, 0, 0, 7},
-        {0, 1, 0, 0, 8, 3, 0, 0, 4},
-        {9, 0, 6, 4, 2, 5, 3, 0, 0},
-        {8, 3, 4, 0, 1, 0, 2, 0, 0}
+       //0, 1  2  3  4  5  6  7  8
+        {0, 9, 8, 5, 3, 7, 4, 1, 2},// 0
+        {1, 4, 0, 2, 6, 8, 9, 5, 3},// 1
+        {0, 2, 5, 1, 4, 0, 8, 7, 0},// 2
+        {2, 5, 3, 8, 0, 1, 6, 0, 9},// 3
+        {0, 6, 1, 0, 9, 4, 5, 0, 8},// 4
+        {0, 8, 0, 6, 0, 2, 0, 0, 7},// 5
+        {0, 1, 0, 0, 8, 3, 0, 0, 4},// 6
+        {9, 0, 6, 4, 2, 5, 3, 0, 0},// 7
+        {8, 3, 4, 0, 1, 0, 2, 0, 0} // 8
     };
 
 int SOLVED_VALUES[9][9]= {
@@ -102,8 +103,9 @@ static char * test_solve_board()
     {
         int row = coords[i][0];
         int col = coords[i][1];
-        printf("row: %i, col: %i", row, col);
-        mu_assert_i("foobar", SOLVED_VALUES[row][col], b.sudoku_board[row][col].value);
+        char buffer[100];
+        snprintf(buffer, 100,"testing that solution matches at row = %d, col = %d", row, col);
+        mu_assert_i(buffer, SOLVED_VALUES[row][col], b.sudoku_board[row][col].value);
 
     }
     mu_end_case("solve_board");
@@ -131,12 +133,36 @@ static char * test_find_unassigned()
     {
         row++;
         col++;
-        mu_assert_i("Checking on solved board",0,find_unassigned(&b_solved, &row, &col));
+        mu_assert_i("Checking on solved board", 0 ,find_unassigned(&b_solved, &row, &col));
     }
     
     Board b;
     init_test_board(&b,INCOMPLETE_VALUES);
-    mu_assert_i("Checking correct value for row",0,find_unassigned(&b, &row, &col));
+    
+    int return_values[][3]  = {
+        // return value, row return value, col return value
+        {1, 0, 0},
+        {1, 1, 2},
+        {1, 2, 0},
+        {1, 2, 5},
+        {1, 2, 8},
+    };
+    printf("\n");
+    for (int i = 0; i < 5; i++)
+    {
+        int return_value = return_values[i][0];
+        int unassigned_row = return_values[i][1];
+        int unassigned_col = return_values[i][2];
+        
+        mu_assert_i("Checking return value", return_value ,find_unassigned(&b, &row, &col));
+        mu_assert_i("Checking correct value for row", unassigned_row, row);
+        mu_assert_i("Checking correct value for col", unassigned_col, col);
+        printf("\n");
+
+        //we need to set the board so that the next one could potentially pass, ie setting row, col in the board to be value that is assigned
+        b.sudoku_board[unassigned_row][unassigned_col].value = SOLVED_VALUES[unassigned_row][unassigned_col];
+
+    }
     mu_end_case("find_unassigned");
     return 0;
 }
@@ -152,14 +178,28 @@ static char * test_used_in_row()
     mu_assert_i("Testing null row pointer", -1, used_in_row(&b, NULL, 0));
 
 
-    int mthd_args[][2] = {{0,1},{8,3},{7,4},{7,8},{6,6},};
-    int return_values[] = {1,1,1,0,0};
-    for (int i = 0; i <5; i++)
+    int mthd_values[][3] = {
+        //row, value, return value
+        {0,1,1},
+        {0,6,0},
+        {2,9,0},
+        {8,3,1},
+
+        {8,5,0},
+        {7,4,1},
+        {7,8,0},
+        {6,6,0},
+
+        {8,9,0},
+    };
+    for (int i = 0; i <9; i++)
     {
-        int return_value = return_values[i];
-        int arg1 = mthd_args[i][0];
-        int arg2 = mthd_args[i][1];
-        mu_assert_i("Used in row", return_values[i], used_in_row(&b, &arg1, arg2));//first row
+        int row = mthd_values[i][0];
+        int val = mthd_values[i][1];
+        int return_value = mthd_values[i][2];
+        char buffer[100];
+        snprintf(buffer, 100, "testing if value %d in row %d", val, row);
+        mu_assert_i(buffer, return_value, used_in_row(&b, &row, val));//first row
     }
     mu_end_case("used_in_row");
     return 0;
@@ -195,16 +235,78 @@ static char * test_used_in_box()
     Board b;
     init_test_board(&b,INCOMPLETE_VALUES);
     mu_assert_i("testing null board", -1, used_in_box(NULL,0,0,0));
-    mu_assert_i("testing invalid start row (-1)", -1, used_in_box(&b,-1, 0, 0));
-    mu_assert_i("testing invalid start row (9)", -1, used_in_box(&b, 9, 0, 0));
+    mu_assert_i("testing bad coords row (8), col (8)", -1, used_in_box(&b,8,8,0));
+    mu_assert_i("testing bad coords row (7), col (7)", -1, used_in_box(&b,7,7,0));
 
-    mu_assert_i("testing invalid start col (-1)", -1, used_in_box(&b,0,-1,0));
-    mu_assert_i("testing invalid start col (9)", -1, used_in_box(&b, 0, 9, 0));
+    int mthd_args[][4] ={
+        // boxStartRow, boxStartCol, num, return value
+        {-1, 0, 0, -1},
+        {9, 0, 0, -1},
+        {0,-1, 0, -1},
+        {0, 9, 0, -1},
 
-    mu_assert_i("testing invalid num to check", -1, used_in_box(&b,0, 0, -1));
+        {0, 0, -1, -1},
+        {0, 0, 6, 0},
+        {3, 6, 6, 1},
+        {3, 6, 1, 0},
+
+        {6, 6, 1, 0},
+        {6, 6, 2, 1},
+    };
+    for (int i = 0; i < 10; i++)
+    {
+        char buffer[100];
+        int row = mthd_args[i][0];
+        int col = mthd_args[i][1];
+        int num = mthd_args[i][2];
+        int return_value = mthd_args[i][3];
+        int output = snprintf(buffer,100,"testing start row (%d), start col (%d), value (%d)", row, col, num);
+        mu_assert_i(buffer, return_value, used_in_box(&b, row, col, num));
+    }
 
 
     mu_end_case("used_in_box");
+    return 0;
+}
+
+static char * test_is_safe()
+{
+    mu_begin_case("is_safe", -1);
+    Board b;
+    init_test_board(&b,INVALID_VALUES);
+    int row = 0;
+    int col = 0;
+    mu_assert_i("testing with null Board", -1, is_safe(NULL,&col, &row,0));
+    mu_assert_i("testing with null col pointer", -1, is_safe(&b, NULL, &row,0));
+    mu_assert_i("testing with null row pointer", -1, is_safe(&b, &col, NULL, 0));
+    int mthd_args[][4] = {
+        // is in the format of col, row, num, expected return value
+        {0,0,1,0},
+        {0,0,6,1},
+        {4,3,6,0},
+        {4,3,7,1},
+
+        {5,2,4,0},
+        {5,2,9,1},
+        {8,8,5,1},
+        {8,8,4,0},
+
+        {8,8,3,0},
+        {2,6,9,0},
+        {7,8,9,1},
+    };
+    for (int i = 0; i < 11; i++)
+    {
+        col = mthd_args[i][0];
+        row = mthd_args[i][1];
+        int val_to_check = mthd_args[i][2];
+        int return_value = mthd_args[i][3];
+        char buffer[100];
+        snprintf(buffer, 100, "testing placable num (%d), row (%d) col (%d)", val_to_check, row, col);
+        mu_assert_i(buffer, return_value, is_safe(&b, &col, &row, val_to_check));
+    }
+
+    mu_end_case("is_safe");
     return 0;
 }
 
@@ -282,6 +384,7 @@ static char * board_tests()
     test_used_in_row();
     test_used_in_col();
     test_used_in_box();
+    test_is_safe();
     test_solve_board();
     return 0;
 }
@@ -293,8 +396,10 @@ static char * all_tests()
 }
 static void print_test_usage()
 {
+    printf("To run all tests: ./test\n");
+    printf("To run board tests: ./test  -board\n");
+    printf("To run dict tests: ./test -dict\n");
 }
-
 #ifdef TEST
 /*
 To run all:         ./test         
