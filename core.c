@@ -175,7 +175,7 @@ int read_board(Board * board, FILE * fp)
 		fscanf(fp, "%s", buffer);
 		for(int j = 0; j < 9; j++)
 		{
-			board->sudoku_board[i][j].value = atoi(buffer[j]);
+			board->sudoku_board[i][j].value = atoi(&buffer[j]);
 		}
 	}
 	return TRUE;
