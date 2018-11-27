@@ -53,5 +53,7 @@ void dict_clear(SimpleDict * sd);
 int dict_add(SimpleDict * sd, CellValue cv);
 int dict_contains(SimpleDict *sd, CellValue cv);
 
+int read_board(Board * board, FILE * fp);
+
 int core_main(int argc, const char * argv[]);
 #endif /* core_h */

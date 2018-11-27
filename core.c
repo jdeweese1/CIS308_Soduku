@@ -163,6 +163,41 @@ int dict_contains(SimpleDict *sd, CellValue cv)
 	return sd->is_chosen[cv] >= 1;
 }
 
+int read_board(Board * board, FILE * fp)
+{
+	if(fp == NULL)
+		return FALSE;
+	if(board == NULL)
+		return FALSE;
+	char buffer[50];
+	for(int i = 0; i < 9; i++)
+	{
+		fscanf(fp, "%s", buffer);
+		for(int j = 0; j < 9; j++)
+		{
+			board->sudoku_board[i][j].value = atoi(buffer[j]);
+		}
+	}
+	return TRUE;
+}
+
+int write_board(Board * board, FILE * fp)
+{
+	if(fp == NULL) return FALSE;
+	if(board == NULL) return FALSE;
+	for(int i = 0; i < 9; i++)
+	{
+		for(int j = 0; j < 9; j++)
+		{
+			fprintf(fp, "%d", board->sudoku_board[i][j].value);
+		}
+		fprintf(fp, "\n");
+	}
+}
+
+// ./main solve -i text.txt
+// ./main validate -i text.txt
+// ./main generate -o out.txt
 int core_main(int argc, const char * argv[]) 
 {
 	printf("This is before board\n");
@@ -179,4 +214,19 @@ int core_main(int argc, const char * argv[])
 	solve_board(&example);
 	print_board(&example);
 	return 0;
+
+
+	if(argc < 2)
+	{
+		printf("Missing required arguments\n");
+	}
+	FILE * fp_read = fopen(argv[1], "r");
+	FILE * fp_write = fopen("out.txt", "w");
+	Board board1;
+	read_board(&board1, fp_read);
+	solve_board(&board1);
+	print_board(&board1);
+	write_board(&board1, fp_write);
+	fclose(fp_read);
+	fclose(fp_write);
 }
