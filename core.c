@@ -117,7 +117,7 @@ int solve_board(Board * b)
 	}
 	else {
 		for(int i = 1; i <= 9; i++) {
-			if(is_safe(b, row, col, i)) {
+			if(is_safe(b, col, row, i)) {
 				b->sudoku_board[*row][*col].value = i;
 				if(solve_board(b)) {
 					return TRUE;
