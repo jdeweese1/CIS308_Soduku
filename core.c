@@ -200,22 +200,6 @@ int write_board(Board * board, FILE * fp)
 // ./main generate -o out.txt
 int core_main(int argc, const char * argv[]) 
 {
-	printf("This is before board\n");
-	Board example;
-	printf("this is before loop\n");
-	for(int i = 0; i < 9; i++) {
-                for(int j = 0; j < 9; j++) {
-                         example.sudoku_board[i][j].value = 0;
-                }
-        }
-	printf("this is before print board\n");
-	print_board(&example);
-	printf("Print board worked fine\n");
-	solve_board(&example);
-	print_board(&example);
-	return 0;
-
-
 	if(argc < 4)
 	{
 		printf("Missing required arguments\n");
