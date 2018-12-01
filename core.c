@@ -8,8 +8,8 @@ int find_unassigned(Board * suduko, int * row, int * col)
 {
 	if (suduko == NULL)
 	{
-		*row = -1;
-		*col = -1;
+		*row = 0;
+		*col = 0;
 		 return FALSE;
 	}
 	for(int i = 0; i < 9; i++) {
@@ -35,7 +35,6 @@ int used_in_row(Board * sudoku, int * row, int num)
 	}
 	for(int col = 0; col < 9; col++) {
 		if(sudoku->sudoku_board[*row][col].value == num) {
-
 			return TRUE;
 		}
 	}
@@ -51,7 +50,6 @@ int used_in_col(Board * sudoku, int * col, int num)
 	}
         for(int row = 0; row < 9; row++) {
                 if(sudoku->sudoku_board[row][*col].value == num) {
-
                         return TRUE;
                 }
         }
@@ -111,14 +109,15 @@ int solve_board(Board * b)
 	{
 		return -1;
 	}
-	int row =0;
-	int col =0;
+	int row = 0;
+	int col = 0;
+
 	if(!find_unassigned(b, &row, &col)) {
 		return TRUE;
 	}
 	else {
 		for(int i = 1; i <= 9; i++) {
-			if(is_safe(b, &col, &row, i)) {
+			if(is_safe(b, &row, &col, i)) {
 				b->sudoku_board[row][col].value = i;
 				if(solve_board(b)) {
 					return TRUE;
