@@ -102,6 +102,7 @@ int check_board(Board * b)
 	// or  
 	//check all columns
 	//check all 3x3 boxes
+	printf("about to reutrn\n");
 	return FALSE;
 }
 int solve_board(Board * b)
@@ -110,19 +111,19 @@ int solve_board(Board * b)
 	{
 		return -1;
 	}
-	int * row;
-	int * col;
-	if(!find_unassigned(b, row, col)) {
+	int row =0;
+	int col =0;
+	if(!find_unassigned(b, &row, &col)) {
 		return TRUE;
 	}
 	else {
 		for(int i = 1; i <= 9; i++) {
-			if(is_safe(b, col, row, i)) {
-				b->sudoku_board[*row][*col].value = i;
+			if(is_safe(b, &col, &row, i)) {
+				b->sudoku_board[row][col].value = i;
 				if(solve_board(b)) {
 					return TRUE;
 				}
-				b->sudoku_board[*row][*col].value = 0;
+				b->sudoku_board[row][col].value = 0;
 			}
 		}
 	return FALSE;
@@ -175,7 +176,7 @@ int read_board(Board * board, FILE * fp)
 		fscanf(fp, "%s", buffer);
 		for(int j = 0; j < 9; j++)
 		{
-			board->sudoku_board[i][j].value = atoi(&buffer[j]);
+			board->sudoku_board[i][j].value = buffer[j] -'0';
 		}
 	}
 	return TRUE;
@@ -193,9 +194,10 @@ int write_board(Board * board, FILE * fp)
 		}
 		fprintf(fp, "\n");
 	}
+	return TRUE;
 }
 
-// ./main solve -i text.txt
+// ./main solve -i text.txt -o out.txt
 // ./main validate -i text.txt
 // ./main generate -o out.txt
 int core_main(int argc, const char * argv[]) 
@@ -203,25 +205,46 @@ int core_main(int argc, const char * argv[])
 	if(argc < 4)
 	{
 		printf("Missing required arguments\n");
+		return 1;
 	}
 	File file_read;
 	File file_write;
-	if(strcmp(argv[1], "solve") == 0)
+	if (argc == 6)
 	{
-		if(strcmp(argv[2], "-i") == 0)
+		if(strcmp(argv[1], "solve") == 0)
 		{
-			file_read.fp = fopen(argv[3], "r");
-			Board board1;
-			read_board(&board1, file_read.fp);
-			solve_board(&board1);
-			print_board(&board1);
-			file_write.fp = fopen(argv[3], "w");
-			write_board(&board1, file_write.fp);
+			if(strcmp(argv[2], "-i") == 0)
+			{
+				if (strcmp(argv[4], "-o") == 0)
+				{
+					Board board1;
+		
+					file_read.fp = fopen(argv[3], "r");
+					read_board(&board1, file_read.fp);
+					print_board(&board1);
+		
+					if (solve_board(&board1))
+					{
+						file_write.fp = fopen(argv[5], "w");
+						write_board(&board1, file_write.fp);
+					}
+					else
+					{
+						printf("Board not solvable\n");
+					}
+				}
+	
+			}
+			else
+				{
+					printf("Must pass in an input file (-i followed by the filename)\n");
+					fclose(file_read.fp);
+					fclose(file_write.fp);
+					return 1;
+				}
 		}
-		else
-			printf("Must pass in an input file (-i followed by the filename)\n");
 	}
-	else if(strcmp(argv[1], "validate") == 0)
+	else if(strcmp(argv[1], "check") == 0)
 	{
 		if(strcmp(argv[2], "-i") == 0)
 		{
@@ -242,4 +265,5 @@ int core_main(int argc, const char * argv[])
 
 	fclose(file_read.fp);
 	fclose(file_write.fp);
+	return 0;
 }
