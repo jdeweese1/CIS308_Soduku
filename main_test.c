@@ -369,6 +369,56 @@ static char * test_dict_contains()
     return 0;
 }
 
+static char * test_read_board()
+{
+    mu_begin_case("read_board", -1);
+    mu_end_case("read_board");
+    mu_assert_i("Null board and Null File should return FALSE",0,read_board(NULL,NULL));
+    {
+        Board b;
+        char contents[] = "";
+        FILE * fp = fmemopen(contents, strlen(contents),"r");
+        mu_assert_i("Null File should return FALSE",0,read_board(&b,NULL));
+        mu_assert_i("Null board should return FALSE",0,read_board(NULL,fp));
+        fclose(fp);
+    }
+    {    
+        char contents[] = "698537412\n147268953\n325149876\n253871649\n761394528\n489652137\n512983764\n976425381\n834716295";
+        FILE * fp = fmemopen(contents, strlen(contents),"r");
+        Board b;
+        mu_assert_i("read_board(&b, fp should return TRUE",1,read_board(&b,fp));
+        int coords[29][2] = {
+            {0,0},{0,6},{1,2},{2,0},
+            {2,5},{2,8},{3,4},{3,7},
+            {4,0},{4,3},{4,7},{5,0},
+            {5,2},{5,4},{5,6},{5,7},
+            {6,0},{6,2},{6,3},{6,6},
+            {6,7},{7,0},{7,1},{7,7},
+            {7,8},{8,3},{8,5},{8,7},
+            {8,8},
+        }; 
+        for (int i = 0; i < sizeof(coords)/(2* sizeof(0)); i++)
+    {
+        int row = coords[i][0];
+        int col = coords[i][1];
+        char buffer[100];
+        snprintf(buffer, 100,"testing that value at row = %d, col = %d is %d", row, col, SOLVED_VALUES[row][col]);
+        mu_assert_i(buffer, SOLVED_VALUES[row][col], b.sudoku_board[row][col].value);
+
+    } 
+
+    }    
+
+
+    return 0;
+}
+
+static char * test_write_board()
+{
+    mu_begin_case("write_board",-1);
+    mu_end_case("write_board");
+    return 0;
+}
 static char * dict_tests()
 {
     test_dict_clear();
@@ -388,12 +438,19 @@ static char * board_tests()
     test_solve_board();
     return 0;
 }
+static char * io_tests()
+{
+    test_read_board();
+    test_write_board();
+    return 0;
+}
 static char * all_tests() 
 {
     board_tests();
     dict_tests();
     return 0;
 }
+
 static void print_test_usage()
 {
     printf("To run all tests: ./test\n");
@@ -404,7 +461,8 @@ static void print_test_usage()
 /*
 To run all:         ./test         
 To run board tests: ./test -board  
-To run dict tests:  ./test -dict   
+To run dict tests:  ./test -dict
+To run IO tests: ./test -io 
 */
 int main(int argc, char **argv) 
 {
@@ -421,6 +479,10 @@ int main(int argc, char **argv)
         else if (strcmp(argv[1], "-dict") == 0)
         {
             mu_run(dict_tests);
+        }
+        else if (strcmp(argv[1], "-io") == 0)
+        {
+            mu_run(io_tests);
         }
         else
         {
