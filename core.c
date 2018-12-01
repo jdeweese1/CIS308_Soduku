@@ -216,17 +216,46 @@ int core_main(int argc, const char * argv[])
 	return 0;
 
 
-	if(argc < 2)
+	if(argc < 4)
 	{
 		printf("Missing required arguments\n");
 	}
-	FILE * fp_read = fopen(argv[1], "r");
-	FILE * fp_write = fopen("out.txt", "w");
-	Board board1;
-	read_board(&board1, fp_read);
-	solve_board(&board1);
-	print_board(&board1);
-	write_board(&board1, fp_write);
-	fclose(fp_read);
-	fclose(fp_write);
+	File file_read;
+	File file_write;
+	if(strcmp(argv[1], "solve") == 0)
+	{
+		if(strcmp(argv[2], "-i") == 0)
+		{
+			file_read.fp = fopen(argv[3], "r");
+			Board board1;
+			read_board(&board1, file_read.fp);
+			solve_board(&board1);
+			print_board(&board1);
+			file_write.fp = fopen(argv[3], "w");
+			write_board(&board1, file_write.fp);
+		}
+		else
+			printf("Must pass in an input file (-i followed by the filename)\n");
+	}
+	else if(strcmp(argv[1], "validate") == 0)
+	{
+		if(strcmp(argv[2], "-i") == 0)
+		{
+			file_read.fp = fopen(argv[3], "r");
+			Board board1;
+			read_board(&board1, file_read.fp);
+			if(check_board(&board1) == TRUE)
+				printf("Valid completed Soduku board.\n");
+			else
+				printf("Invalid Soduku board. Try again.\n");
+		}
+		else
+			printf("Must pass in an input file (-i followed by the filename)\n");
+	}
+	else 
+		printf("Invalid input.  Try again.  Format: ./main action -i text.txt\n");
+
+
+	fclose(file_read.fp);
+	fclose(file_write.fp);
 }

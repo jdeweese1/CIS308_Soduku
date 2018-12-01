@@ -34,6 +34,11 @@ typedef struct
 	int is_chosen[BOARD_WIDTH+1];//boolean array
 } SimpleDict;
 
+typedef struct
+{
+	FILE * fp; //File reader / writer
+} File;
+
 
 int find_unassigned(Board * sudoku, int * row, int * col);
 int used_in_row(Board * sudoku, int * row, int num);
