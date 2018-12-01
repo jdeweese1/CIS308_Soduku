@@ -84,25 +84,52 @@ int is_safe(Board * sudoku, int * col, int * row, int num)
 		!used_in_col(sudoku, col, num) &&
 		!used_in_box(sudoku, (*row) - (*row) % 3, (*col) - (*col) % 3, num));
 }
-int check_board(Board * b)
-{
-	if (b == NULL) return FALSE;
-	//check all rows
-	for(int row_num =0;row_num<BOARD_HEIGHT; row_num++)
-	{
-		for (int col_num = 0; col_num < BOARD_WIDTH; col_num++)
-		{
-			int value = b->sudoku_board[row_num][col_num].value;
-			// if(has_row_duplicates(b,row_num,value)) return FALSE;
-			// if(has_col_duplicates(b,col_num,value)) return FALSE;
-		}
-	}
-	// should we check if the board is valid? i.e. no number conflicts in square, rows, cols?
-	// or  
-	//check all columns
-	//check all 3x3 boxes
-	printf("about to reutrn\n");
-	return FALSE;
+int check_board(Board * b) {
+        if(b == NULL) {
+                return FALSE;
+        }
+        SimpleDict sd;
+        //row checks
+        for(int i = 0; i < 9; i++) {
+                dict_clear(&sd);
+                for(int j = 0; j < 9; j++) {
+                        if(!dict_contains(&sd, b->sudoku_board[i][j].value)) {
+                                dict_add(&sd, b->sudoku_board[i][j].value);
+                        }
+                        else {
+                                return FALSE;
+                        }
+                }
+        }
+        //col checks
+         for(int i = 0; i < 9; i++) {
+                dict_clear(&sd);
+                for(int j = 0; j < 9; j++) {
+                        if(!dict_contains(&sd, b->sudoku_board[j][i].value)) {
+                                dict_add(&sd, b->sudoku_board[j][i].value);
+                        }
+                        else {
+                                return FALSE;
+                        }
+                }
+        }
+        //box checks
+
+        return TRUE;
+
+}
+
+void print_board(Board * b) {
+        for(int i = 0; i < 9; i++) {
+                for(int j = 0; j < 9; j++) {
+                        printf("%d ", b->sudoku_board[i][j].value);
+                }
+        printf("\n");
+        }
+}
+// Methods for SimpleDict
+
+
 }
 int solve_board(Board * b)
 {
