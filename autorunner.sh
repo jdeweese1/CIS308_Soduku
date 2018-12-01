@@ -1,7 +1,9 @@
+echo "rm'ing out.txt"
+rm out.txt
+
 # Make main
-read LINE
 echo "Making main..."
-make main
+make main > /dev/null
 # We can solve
 echo "About to solve a board by running './main solve -i unsolved1.txt -o out.txt'"
 echo "Here is the initial value of the board passed, press enter to continue"
@@ -28,7 +30,15 @@ read LINE
 
 
 # Make tests
+make test > /dev/null
 echo "About to run entire test suite"
 read LINE
-make test
 # We can also run tests
+./test
+echo "About to run only board tests"
+read LINE
+./test -board
+
+echo "About to run only dictionary tests"
+read LINE
+./test -dict

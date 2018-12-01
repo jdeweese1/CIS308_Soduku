@@ -228,7 +228,6 @@ int check_board(Board * b) {
         return TRUE;
 
 }
-
 int solve_board(Board * b)
 {
 	if(b == NULL)
@@ -280,14 +279,7 @@ Board * generate_board()
 	return board;
 }
 
-void print_board(Board * b) {
-	for(int i = 0; i < 9; i++) {
-		for(int j = 0; j < 9; j++) {
-			printf("%d ", b->sudoku_board[i][j].value);
-		}
-	printf("\n");
-	}
-}
+
 // Methods for SimpleDict
 
 void dict_clear(SimpleDict * sd)
