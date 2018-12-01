@@ -1,5 +1,7 @@
 echo "rm'ing out.txt"
 rm out.txt
+echo "cleaning files"
+make clean
 
 # Make main
 echo "Making main..."
