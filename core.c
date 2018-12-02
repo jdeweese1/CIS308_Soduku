@@ -115,9 +115,8 @@ int check_board(Board * b) {
         }
         //box checks
 	//top-left
-	dict_clear(&sd);
 	for(int i = 0; i < 3; i++) {
-		for(int j = 0; j < 3) {
+		for(int j = 0; j < 3; j++) {
 			if(!dict_contains(&sd, b->sudoku_board[i][j].value)) {
 				dict_add(&sd, b->sudoku_board[i][j].value);
 			}
@@ -128,9 +127,8 @@ int check_board(Board * b) {
 	}
 
 	//top-center
-	dict_clear(&sd);
 	for(int i = 0; i < 3; i++) {
-		for(int j = 3; j < 6) {
+		for(int j = 3; j < 6; j++) {
 			if(!dict_contains(&sd, b->sudoku_board[i][j].value)) {
 				dict_add(&sd, b->sudoku_board[i][j].value);
 			}
@@ -141,9 +139,8 @@ int check_board(Board * b) {
 	}
 
 	//top-right
-	dict_clear(&sd);
 	for(int i = 0; i < 3; i++) {
-		for(int j = 6; j < 9) {
+		for(int j = 6; j < 9; j++) {
 			if(!dict_contains(&sd, b->sudoku_board[i][j].value)) {
 				dict_add(&sd, b->sudoku_board[i][j].value);
 			}
@@ -153,9 +150,8 @@ int check_board(Board * b) {
 		}
 	}
 	//middle-left
-	dict_clear(&sd);
 	for(int i = 3; i < 6; i++) {
-		for(int j = 0; j < 3) {
+		for(int j = 0; j < 3; j++) {
 			if(!dict_contains(&sd, b->sudoku_board[i][j].value)) {
 				dict_add(&sd, b->sudoku_board[i][j].value);
 			}
@@ -165,9 +161,8 @@ int check_board(Board * b) {
 		}
 	}
 	//middle-center
-	dict_clear(&sd);
 	for(int i = 3; i < 6; i++) {
-		for(int j = 3; j < 6) {
+		for(int j = 3; j < 6; j++) {
 			if(!dict_contains(&sd, b->sudoku_board[i][j].value)) {
 				dict_add(&sd, b->sudoku_board[i][j].value);
 			}
@@ -177,9 +172,8 @@ int check_board(Board * b) {
 		}
 	}
 	//middle-right
-	dict_clear(&sd);
 	for(int i = 3; i < 6; i++) {
-		for(int j = 6; j < 9) {
+		for(int j = 6; j < 9; j++) {
 			if(!dict_contains(&sd, b->sudoku_board[i][j].value)) {
 				dict_add(&sd, b->sudoku_board[i][j].value);
 			}
@@ -189,9 +183,8 @@ int check_board(Board * b) {
 		}
 	}
 	//bottom-left
-	dict_clear(&sd);
 	for(int i = 6; i < 9; i++) {
-		for(int j = 0; j < 3) {
+		for(int j = 0; j < 3; j++) {
 			if(!dict_contains(&sd, b->sudoku_board[i][j].value)) {
 				dict_add(&sd, b->sudoku_board[i][j].value);
 			}
@@ -201,9 +194,8 @@ int check_board(Board * b) {
 		}
 	}
 	//bottom-center
-	dict_clear(&sd);
 	for(int i = 6; i < 9; i++) {
-		for(int j = 3; j < 6) {
+		for(int j = 3; j < 6; j++) {
 			if(!dict_contains(&sd, b->sudoku_board[i][j].value)) {
 				dict_add(&sd, b->sudoku_board[i][j].value);
 			}
@@ -213,9 +205,8 @@ int check_board(Board * b) {
 		}
 	}
 	//bottom-right
-	dict_clear(&sd);
 	for(int i = 6; i < 9; i++) {
-		for(int j = 6; j < 9) {
+		for(int j = 6; j < 9; j++) {
 			if(!dict_contains(&sd, b->sudoku_board[i][j].value)) {
 				dict_add(&sd, b->sudoku_board[i][j].value);
 			}
