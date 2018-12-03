@@ -254,29 +254,27 @@ int solve_board(Board * b)
 	}
 
 }
+
 Board * generate_board()
 {
-	printf("entered generate");
 	int random = rand() % 9;
 	int random2 = rand() % 9;
-	printf("generated random ints");
 	Board * board;
 	board->sudoku_board[random][random2].value = rand() % 9;
-	printf("added number");
-	solve_board(board);
-	printf("solved board");
-	for(int i = 0; i < 9; i++)
+	int could_solve = solve_board(board);
+	for(int q = 0; q < 9; q++)
 	{
-		for(int j = 0; j < 9; j++)
+		for(int s = 0; s < 9; s++)
 		{
 			int random3 = rand() % 9;
 			if(random3 % 4 != 0)
 			{
-				board->sudoku_board[i][j].value = 0;
+				board->sudoku_board[q][s].value = 0;
 			}
 		}
 	}
-	return board;
+
+		return board;
 }
 
 
@@ -372,10 +370,15 @@ int core_main(int argc, const char * argv[])
 					{
 						file_write.fp = fopen(argv[5], "w");
 						write_board(&board1, file_write.fp);
+						fclose(file_read.fp);
+						fclose(file_write.fp);
+
 					}
 					else
 					{
 						printf("Board not solvable\n");
+						fclose(file_read.fp);
+
 					}
 				}
 	
@@ -415,21 +418,14 @@ int core_main(int argc, const char * argv[])
 	{
 		if(strcmp(argv[2], "-o") == 0)
 		{
-			printf("Above write");
 			file_write.fp = fopen(argv[3], "w");
-			printf("opened file writer");
 			Board * b = generate_board();
-			printf("generated board");
 			write_board(b, file_write.fp);
-			printf("finished");
 		}
 		else printf("Must be writing to an output file (-o followed by the filename)\n.");
 	}
 	else 
 		printf("Invalid input.  Try again.  Format: ./main action -i text.txt\n");
 
-
-	fclose(file_read.fp);
-	fclose(file_write.fp);
 	return 0;
 }
