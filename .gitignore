@@ -6,3 +6,5 @@
 *.sublime-workspace
 *.save
 *.envrc
+trash.txt
+/datafiles/unsolved
