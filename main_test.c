@@ -38,6 +38,7 @@ int SOLVED_VALUES[9][9]= {
     };
 
 int INVALID_VALUES[9][9]= {
+       //0, 1  2  3  4  5  6  7  8
         {6, 0, 1, 5, 3, 7, 4, 1, 2},//THE 1
         {1, 4, 7, 2, 6, 8, 9, 5, 3},
         {3, 2, 5, 1, 4, 9, 8, 7, 6},
@@ -114,7 +115,7 @@ static char * test_solve_board()
 
 static char * test_find_unassigned()
 {
-    mu_begin_case("find_unassigned",-1);
+    mu_begin_case("find_unassigned",27);
 
     int row;
     int col;
@@ -122,8 +123,8 @@ static char * test_find_unassigned()
     col = 0;
     
     mu_assert_i("Checking with null board,", 0, find_unassigned(NULL,&row, &col));
-    mu_assert_i("Checking -1 returned for row", -1, row);
-    mu_assert_i("Checking -1 returned for col", -1, col);
+    mu_assert_i("Checking 0 returned for row", 0, row);
+    mu_assert_i("Checking 0 returned for col", 0, col);
 
     Board b_solved;
     init_test_board(&b_solved,SOLVED_VALUES);
@@ -169,7 +170,7 @@ static char * test_find_unassigned()
 
 static char * test_used_in_row()
 {
-    mu_begin_case("used_in_row",-1);
+    mu_begin_case("used_in_row",11);
     Board b;
 
     init_test_board(&b,INCOMPLETE_VALUES);
@@ -207,7 +208,7 @@ static char * test_used_in_row()
 
 static char * test_used_in_col()
 {
-    mu_begin_case("used_in_col",-1);
+    mu_begin_case("used_in_col",7);
     Board b;
     init_test_board(&b,INCOMPLETE_VALUES);
 
@@ -231,7 +232,7 @@ static char * test_used_in_col()
 
 static char * test_used_in_box()
 {
-    mu_begin_case("used_in_box",-1);
+    mu_begin_case("used_in_box",13);
     Board b;
     init_test_board(&b,INCOMPLETE_VALUES);
     mu_assert_i("testing null board", -1, used_in_box(NULL,0,0,0));

@@ -335,7 +335,7 @@ int write_board(Board * board, FILE * fp)
 }
 
 // ./main solve -i text.txt -o out.txt
-// ./main validate -i text.txt
+// ./main check -i text.txt
 // ./main generate -o out.txt
 int core_main(int argc, const char * argv[]) 
 {
@@ -386,15 +386,22 @@ int core_main(int argc, const char * argv[])
 		if(strcmp(argv[2], "-i") == 0)
 		{
 			file_read.fp = fopen(argv[3], "r");
+			file_write.fp = fopen("trash.txt","w");//without giving it a value running gives weird error about freed pointer not being allocated
 			Board board1;
 			read_board(&board1, file_read.fp);
-			if(check_board(&board1) == TRUE)
+			if(check_board(&board1))
+			{				
 				printf("Valid completed Soduku board.\n");
+			}			
 			else
-				printf("Invalid Soduku board. Try again.\n");
+			{
+				printf("Invalid/Unsolved Soduku board. Try again.\n");
+			}
 		}
 		else
+		{
 			printf("Must pass in an input file (-i followed by the filename)\n");
+		}
 	}
 	else if(strcmp(argv[1], "generate") == 0)
 	{
@@ -412,7 +419,7 @@ int core_main(int argc, const char * argv[])
 	}
 	else 
 		printf("Invalid input.  Try again.  Format: ./main action -i text.txt\n");
-
+	}
 
 	fclose(file_read.fp);
 	fclose(file_write.fp);
