@@ -333,6 +333,14 @@ int write_board(Board * board, FILE * fp)
 	}
 	return TRUE;
 }
+void print_board(Board * b) {
+	for(int i = 0; i < 9; i++) {
+		for(int j = 0; j < 9; j++) {
+			printf("%d ", b->sudoku_board[i][j].value);
+		}
+	printf("\n");
+	}
+}
 
 // ./main solve -i text.txt -o out.txt
 // ./main check -i text.txt
@@ -419,7 +427,7 @@ int core_main(int argc, const char * argv[])
 	}
 	else 
 		printf("Invalid input.  Try again.  Format: ./main action -i text.txt\n");
-	}
+
 
 	fclose(file_read.fp);
 	fclose(file_write.fp);
