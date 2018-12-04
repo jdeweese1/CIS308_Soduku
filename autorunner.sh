@@ -67,6 +67,7 @@ read LINE
 
 
 echo "About to solve 100 boards"
+mkdir ./datafiles/solved > /dev/null
 make main
 init_time="$(date +%s)"
 count=0
