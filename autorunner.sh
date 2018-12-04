@@ -67,6 +67,9 @@ read LINE
 
 
 echo "About to solve 100 boards"
+
+mkdir ./datafiles/solved > /dev/null
+
 make main
 init_time="$(date +%s)"
 count=0
@@ -79,3 +82,5 @@ do
 done 
 final_time="$(date +%s)"
 echo $((final_time-init_time)) "seconds to solve $count boards"
+
+make clean
