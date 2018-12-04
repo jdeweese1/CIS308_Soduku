@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 
 #include "core.h"
 
@@ -254,14 +255,27 @@ int solve_board(Board * b)
 	}
 
 }
-
-Board * generate_board()
+void clear_board(Board *b)
 {
+	for (int i = 0; i < BOARD_HEIGHT; i++)
+	{
+		for (int j = 0; j < BOARD_HEIGHT; j++)
+		{
+			b->sudoku_board[i][j].value = 0;
+		}
+	}
+}
+
+int populate_board(Board * b)
+{
+	time_t t;
+	srand((unsigned) time(&t));
 	int random = rand() % 9;
 	int random2 = rand() % 9;
-	Board * board;
-	board->sudoku_board[random][random2].value = rand() % 9;
-	int could_solve = solve_board(board);
+
+	b->sudoku_board[random][random2].value = rand() % 9;
+	clear_board(b);
+	solve_board(b);
 	for(int q = 0; q < 9; q++)
 	{
 		for(int s = 0; s < 9; s++)
@@ -269,12 +283,12 @@ Board * generate_board()
 			int random3 = rand() % 9;
 			if(random3 % 4 != 0)
 			{
-				board->sudoku_board[q][s].value = 0;
+				b->sudoku_board[q][s].value = 0;
+				
 			}
 		}
 	}
-
-		return board;
+	return TRUE;
 }
 
 
@@ -419,8 +433,9 @@ int core_main(int argc, const char * argv[])
 		if(strcmp(argv[2], "-o") == 0)
 		{
 			file_write.fp = fopen(argv[3], "w");
-			Board * b = generate_board();
-			write_board(b, file_write.fp);
+			Board b;
+			populate_board(&b);
+			write_board(&b, file_write.fp);
 		}
 		else printf("Must be writing to an output file (-o followed by the filename)\n.");
 	}

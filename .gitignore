@@ -1,10 +1,10 @@
+*.envrc
 *.o
-/test
-._test
-/main
+*.save
 *.sublime-project
 *.sublime-workspace
-*.save
-*.envrc
+._test
+/datafiles/solved
+/main
+/test
 trash.txt
-/datafiles/unsolved
