@@ -49,7 +49,7 @@ int is_safe(Board * sudoku, int * col, int * row, int num);
 
 int check_board(Board * b);
 int solve_board(Board * b); 
-Board * generate_board();
+int populate_board(Board * b);
 void print_board(Board * b);
 
 // Methods for a SimpleDict
