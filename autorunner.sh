@@ -80,3 +80,4 @@ do
 done 
 final_time="$(date +%s)"
 echo $((final_time-init_time)) "seconds to solve $count boards"
+make clean
