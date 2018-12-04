@@ -1,6 +1,8 @@
 #CYAN 6
 #YELLOW 3
 #MAGENTA 5
+
+# dont run this in a path with a space
 echo "$(tput setaf 6)rm'ing out.txt"
 rm out.txt
 echo "$(tput setaf 6)Cleaning files..."
@@ -111,11 +113,11 @@ tput sgr 0
 
 
 # for funsies lets generate a bunch
-# for i in {1..100}
-# do
-# 	name="generated$i.txt"
-# 	./main generate -o "$PWD"/datafiles/generated/"$name"
-# 	# sleep 1
-# done
+for i in {1..100}
+do
+	name="generated$i.txt"
+	./main generate -o "$PWD"/datafiles/generated/"$name"
+	# sleep 1
+done
 make clean > /dev/null
 
