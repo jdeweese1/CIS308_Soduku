@@ -5,7 +5,9 @@
 *.sublime-workspace
 ._test
 /datafiles/solved
+/datafiles/generated
 /main
 /test
 trash.txt
+empty.txt
 
