@@ -40,11 +40,17 @@ tput sgr 0
 echo "About to generate a board by running $(tput setaf 3)'./main generate -o out.txt'"
 tput sgr 0
 read LINE
-./main generate -o out.txt
+./main generate -o generated.txt
 tput sgr 0
-echo "About to $(tput setaf 3)cat out.txt $(tput sgr 0), press enter to continue"
+echo "About to $(tput setaf 3)cat generated.txt $(tput sgr 0), press enter to continue"
 read LINE
 tput setaf 5
+cat generated.txt
+read LINE
+tput sgr 0
+./main solve -i generated.txt -o out.txt > /dev/null
+tput setaf 5
+echo ""
 cat out.txt
 echo "\n\n"
 tput sgr 0
@@ -64,7 +70,6 @@ tput setaf 5
 ./main check -i bad.txt
 tput sgr 0
 
-make test
 make test > /dev/null
 echo "\n"
 echo "About to run entire test suite"
@@ -83,6 +88,7 @@ read LINE
 
 
 echo "About to solve 100 boards"
+read LINE
 mkdir ./datafiles/solved > /dev/null
 rm ./datafiles/solved/*
 
@@ -99,5 +105,17 @@ do
     tput sgr 0
 done 
 final_time="$(date +%s)"
+tput setaf 6
 echo $((final_time-init_time)) "seconds to solve $count boards"
-make clean
+tput sgr 0
+
+
+# for funsies lets generate a bunch
+# for i in {1..100}
+# do
+# 	name="generated$i.txt"
+# 	./main generate -o "$PWD"/datafiles/generated/"$name"
+# 	# sleep 1
+# done
+make clean > /dev/null
+

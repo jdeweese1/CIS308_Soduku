@@ -269,12 +269,13 @@ void clear_board(Board *b)
 int populate_board(Board * b)
 {
 	time_t t;
-	srand((unsigned) time(&t));
+	int a = 5;
+	srand((unsigned)(int)(&a));//seeding with time isnt fast enough for us
 	int random = rand() % 9;
 	int random2 = rand() % 9;
 
 	b->sudoku_board[random][random2].value = rand() % 9;
-	clear_board(b);
+	// clear_board(b);
 	solve_board(b);
 	for(int q = 0; q < 9; q++)
 	{
